@@ -12,6 +12,7 @@ references:
       - checkout
       - run: git status
   allthethings: &allthethings
+    steps:
       - checkout
       - run: git status
       - run: mkdir
