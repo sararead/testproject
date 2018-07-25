@@ -1,8 +1,13 @@
 version: 2
-jobs:
-  build:
+
+references:
+  builderbox: &builderbox
     docker:
       - image: circleci/ruby:2.3-browsers
+
+jobs:
+  build:
+    <<: *builderbox
     steps:
       - checkout
       - run: git status
