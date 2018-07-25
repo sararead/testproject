@@ -4,11 +4,19 @@ references:
   builderbox: &builderbox
     docker:
       - image: circleci/ruby:2.3-browsers
+      
+  make_folder: &make_folder
+    run: mkdir foo
+    
+  do_checkout: &do_checkout
+      - checkout
+      - run: git status
 
 jobs:
   build:
     <<: *builderbox
     steps:
-      - checkout
-      - run: git status
+    >>: *do_checkout
+    - >>: *make_folder
+
 
