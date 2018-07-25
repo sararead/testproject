@@ -16,7 +16,9 @@ jobs:
   build:
     <<: *builderbox
     steps:
-    <<: *do_checkout
-    - <<: *make_folder
+      - checkout
+      - run: git status    
+  #  <<: *do_checkout
+   # - <<: *make_folder
 
 
