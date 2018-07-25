@@ -6,7 +6,7 @@ references:
       - image: circleci/ruby:2.3-browsers
       
   make_folder: &make_folder
-    run: mkdir foo
+    - run: mkdir foo
     
   do_checkout: &do_checkout
       - checkout
@@ -15,7 +15,7 @@ references:
     steps:
       - checkout
       - run: git status
-      - run: mkdir
+      <<: *make_folder
 
 jobs:
   build:
