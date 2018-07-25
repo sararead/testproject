@@ -11,14 +11,14 @@ references:
   do_checkout: &do_checkout
       - checkout
       - run: git status
+  allthethings: &allthethings
+      - checkout
+      - run: git status
+      - run: mkdir
 
 jobs:
   build:
     <<: *builderbox
-    steps:
-   #   - checkout
-  #    - run: git status    
-    <<: *do_checkout
-   # - <<: *make_folder
+    <<: *allthethings
 
 
