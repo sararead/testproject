@@ -31,8 +31,14 @@ workflows:
           type: approval
           requires:
            - build
+          filters:
+            branches:
+              ignore: /master/          
       - test:
           requires:
             - hold
+          filters:
+            branches:
+              ignore: /master/              
 
 
