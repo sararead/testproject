@@ -1,25 +1,38 @@
-version: 2
-
 references:
   builderbox: &builderbox
     docker:
       - image: circleci/ruby:2.3-browsers
       
   make_folder: &make_folder
-    - run: mkdir foo
+    run: mkdir foo
     
   do_checkout: &do_checkout
       - checkout
       - run: git status
-  allthethings: &allthethings
-    steps:
-      - checkout
-      - run: git status
-      <<: *make_folder
 
 jobs:
   build:
     <<: *builderbox
-    <<: *allthethings
+    steps:
+      - checkout
+      - run: git status    
+  test:
+    <<: *builderbox
+    steps:
+      - checkout
+      - run: git status
+      
+workflows:
+  version: 2
+  test-build-deploy:
+    jobs:
+      - build
+      - hold:
+          type: approval
+          requires:
+           - build
+      - test:
+          requires:
+            - hold
 
 
