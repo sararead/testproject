@@ -1,7 +1,7 @@
 references:
   builderbox: &builderbox
     docker:
-      - image: circleci/ruby:2.3.1-jessie-node-browsers
+      - image: circleci/ruby:2.3-node-browsers
       
   make_folder: &make_folder
     run: mkdir foo
@@ -29,7 +29,8 @@ workflows:
       - build:
           filters:
             branches:
-              only: /master/          
+              only: 
+                - master          
       - test
             
 
