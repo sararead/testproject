@@ -26,19 +26,11 @@ workflows:
   version: 2
   test-build-deploy:
     jobs:
-      - build
-      - hold:
-          type: approval
-          requires:
-           - build
+      - build:
           filters:
             branches:
               ignore: /master/          
-      - test:
-          requires:
-            - hold
-          filters:
-            branches:
-              ignore: /master/              
+      - test
+            
 
 
