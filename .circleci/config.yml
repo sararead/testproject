@@ -1,7 +1,7 @@
 references:
   builderbox: &builderbox
     docker:
-      - image: circleci/ruby:2.3.1-jessie-node-browsers
+      - image: circleci/circleci/ruby:2.4-node
       
   make_folder: &make_folder
     run: mkdir foo
@@ -20,8 +20,8 @@ jobs:
   build:
     <<: *builderbox
     steps:
-      - checkout
-      - run: git status    
+      - npm
+      - run: npm install   
   test:
     <<: *builderbox
     steps:
