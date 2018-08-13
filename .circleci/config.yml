@@ -1,7 +1,7 @@
 references:
   builderbox: &builderbox
     docker:
-      - image: circleci/circleci/ruby:2.4-node
+      - image: circleci/ruby:2.4-node
       
   make_folder: &make_folder
     run: mkdir foo
