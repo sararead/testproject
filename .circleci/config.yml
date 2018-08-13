@@ -9,6 +9,12 @@ references:
   do_checkout: &do_checkout
       - checkout
       - run: git status
+  run_on_master_tagged: &run_on_master_tagged
+    filters:
+      branches:
+        only: /master/
+      tags:
+        ignore: /^v.*/
 
 jobs:
   build:
@@ -27,9 +33,7 @@ workflows:
   test-build-deploy:
     jobs:
       - build:
-          filters:
-            branches:
-              ignore: /master/          
+          <<: *run_on_master_tagged        
       - test
             
 
