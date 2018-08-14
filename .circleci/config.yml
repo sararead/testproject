@@ -1,7 +1,7 @@
 references:
   builderbox: &builderbox
     docker:
-      - image: circleci/node:8.9.3
+      - image: circleci/php:7.2.3-fpm-node-browsers
       
   make_folder: &make_folder
     run: mkdir foo
