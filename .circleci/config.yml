@@ -26,6 +26,7 @@ jobs:
     steps:
       - checkout
       - run: git status
+      - run: echo $Saras_Test
       
 workflows:
   version: 2
@@ -33,7 +34,8 @@ workflows:
     jobs:
       - build:
           <<: *run_on_master_tagged        
-      - test
+      - test:
+          context: Testing
       
 #just making a commit
             
