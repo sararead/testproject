@@ -31,7 +31,11 @@ workflows:
             branches:
               only: 
                 - master          
-      - test
-            
+      - test:
+          filters:
+            branches:
+              only: 
+                - second
+        
 
 
