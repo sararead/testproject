@@ -43,7 +43,7 @@ workflows:
 experimental:
   notify:
     webhooks:
-      - url: http://requestbin.fullcontact.com/ud6l8jud
+      - url: http://requestbin.fullcontact.com/ry7wytry
             
 
 
