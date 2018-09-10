@@ -27,6 +27,7 @@ jobs:
       - checkout
       - run: git status
       - run: echo $Saras_Test
+      - run: cd ios && bundle exec fastlane $FASTLANE_LANE
       
 workflows:
   version: 2
