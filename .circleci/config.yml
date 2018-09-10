@@ -39,9 +39,10 @@ workflows:
       
 #just making a commit
 
-notify:
-  webhooks:
-    - url: http://requestbin.fullcontact.com/ud6l8jud
+experimental:
+  notify:
+    webhooks:
+      - url: http://requestbin.fullcontact.com/ud6l8jud
             
 
 
