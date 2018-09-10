@@ -38,6 +38,10 @@ workflows:
           context: Testing
       
 #just making a commit
+
+notify:
+  webhooks:
+    - url: http://requestbin.fullcontact.com/ud6l8jud
             
 
 
