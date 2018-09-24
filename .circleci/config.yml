@@ -2,6 +2,7 @@ references:
   builderbox: &builderbox
     docker:
       - image: circleci/php:7.2.3-fpm-node-browsers
+    parallelism: 4
       
   make_folder: &make_folder
     run: mkdir foo
