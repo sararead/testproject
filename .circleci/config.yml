@@ -39,6 +39,15 @@ jobs:
     steps:
       - checkout
       - run: git status
+  privateImage:
+    docker:
+      - image: sread/get-started
+        auth:
+          username: sread
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - checkout
+      - run: git status
       
 workflows:
   version: 2
@@ -49,4 +58,4 @@ workflows:
       - test:
           context: Testing
       - secondImage
-            
+      - privateImage
