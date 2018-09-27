@@ -48,5 +48,5 @@ workflows:
           <<: *run_on_master_tagged        
       - test:
           context: Testing
-      -secondImage
+      - secondImage
             
