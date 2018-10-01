@@ -32,7 +32,7 @@ jobs:
   secondImage:
     docker:
       - image: circleci/ruby:2.3-jessie-node-browsers
-      - image: sread/get-started
+      - image: sread/get-started:part2
         auth:
           username: sread
           password: $DOCKERHUB_PASSWORD
@@ -41,7 +41,7 @@ jobs:
       - run: git status
   privateImage:
     docker:
-      - image: sread/get-started
+      - image: sread/get-started:part2
         auth:
           username: sread
           password: $DOCKERHUB_PASSWORD
