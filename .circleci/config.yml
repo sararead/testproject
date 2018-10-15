@@ -50,10 +50,25 @@ jobs:
       - checkout
       - run: git status
       
+   ipv6_tests:
+     machine: true
+     steps:
+     - checkout
+     - run:
+         name: enable ipv6
+         command: |
+           cat <<'EOF' | sudo tee /etc/docker/daemon.json
+           {
+             "ipv6": true,
+             "fixed-cidr-v6": "2001:db8:1::/64"
+           }
+           EOF
+           sudo service docker restart
 workflows:
   version: 2
   test-build-deploy:
     jobs:
+      - ipv6_tests
       - build:
           <<: *run_on_master_tagged        
       - test:
