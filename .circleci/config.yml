@@ -3,9 +3,6 @@ references:
     docker:
       - image: circleci/php:7.2.10-cli-stretch-node-browsers-legacy
 #    parallelism: 4
-     
-  make_folder: &make_folder
-    mkdir foo
     
   do_checkout: &do_checkout
       - checkout
@@ -22,7 +19,6 @@ jobs:
     <<: *builderbox
     steps:
       - run: npm install
-      - run: <<: *make_folder
   test:
     <<: *builderbox
     steps:
