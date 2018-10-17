@@ -20,47 +20,18 @@ jobs:
       - run: git status
       - run: echo $Saras_Test
       - run: cd ios && bundle exec fastlane $FASTLANE_LANE
-  secondImage:
-    docker:
-      - image: circleci/ruby:2.3-jessie-node-browsers
-      - image: sread/get-started:part2
-        auth:
-          username: sread
-          password: $DOCKERHUB_PASSWORD
+  iOS:
+    macos: 
+      xcode: "10.0.0"
     steps:
-      - checkout
-      - run: git status
-  privateImage:
-    docker:
-      - image: sread/get-started:part2
-        auth:
-          username: sread
-          password: $DOCKERHUB_PASSWORD
-    steps:
-      - checkout
-      - run: git status
+      - run: echo "hello world"
+
       
-   ipv6_tests:
-     machine: true
-     steps:
-       - checkout
-       - run:
-           name: enable ipv6
-           command: |
-             cat <<'EOF' | sudo tee /etc/docker/daemon.json
-             {
-               "ipv6": true,
-               "fixed-cidr-v6": "2001:db8:1::/64"
-             }
-             EOF
-             sudo service docker restart
 workflows:
   version: 2
   test-build-deploy:
     jobs:
-      - ipv6_tests
       - build      
       - test:
           context: Testing
-      - secondImage
-      - privateImage
+      - iOS
