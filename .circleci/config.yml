@@ -38,7 +38,7 @@ workflows:
   prod-scheduled-workflow:
     triggers:
       - schedule:
-          cron: "5 * * * *"
+          cron: "53 * * * *"
           filters:
               branches:
                 only: 
