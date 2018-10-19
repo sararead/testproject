@@ -35,3 +35,13 @@ workflows:
       - test:
           context: Testing
       - iOS
+  prod-scheduled-workflow:
+    triggers:
+      - schedule:
+          cron: "5 * * * *"
+          filters:
+              branches:
+                only: 
+                  - /master/
+    jobs:
+      - build
