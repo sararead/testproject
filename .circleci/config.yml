@@ -1,38 +1,28 @@
-references:
-  builderbox: &builderbox
-    docker:
-      - image: circleci/php:7.2.10-cli-stretch-node-browsers-legacy
-#    parallelism: 4
-    
-  do_checkout: &do_checkout
-      - checkout
-      - run: git status
-
+version: 2.0
 jobs:
   build:
-    <<: *builderbox
+    docker:
+    - image: circleci/node:9.10
+    parallelism: 2
+    working_directory: ~/build
     steps:
-      - run: npm install
-  test:
-    <<: *builderbox
-    steps:
-      - checkout
-      - run: git status
-      - run: echo $Saras_Test
-      - run: cd ios && bundle exec fastlane $FASTLANE_LANE
-  iOS:
-    macos: 
-      xcode: "10.0.0"
-    steps:
-      - run: echo "hello world"
-
-      
+    - checkout
+    - run:
+        name: Installing modules
+        command: yarn install
+    - run:
+        name: Running unit tests
+        command: |
+          mkdir -p reports/jest
+          yarn test
+        environment:
+          JEST_JUNIT_OUTPUT: reports/jest/results.xml
+    - store_test_results:
+        path: reports
+    - store_artifacts:
+        path: reports
 workflows:
   version: 2
-  test-build-deploy:
+  commit:
     jobs:
-      - build      
-      - test:
-          context: Testing
-      - iOS
-
+    - build
