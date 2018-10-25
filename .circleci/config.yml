@@ -31,13 +31,24 @@ jobs:
       xcode: "10.0.0"
     steps:
       - run: echo "hello world"
+      
+  build_two:
+    docker:
+    - image: quay.io/aptible/ruby:2.2
+      environment:
+        PDFTK_PATH: /usr/bin/pdftk
+
+    steps:
+      - run: sudo apt-get update; sudo apt-get install pdftk
+      - run: bundle exec rubocop
 
       
 workflows:
   version: 2
   test-build-deploy:
     jobs:
-      - build      
+      - build
+      - build_two
       - test:
           context: Testing
       - iOS
