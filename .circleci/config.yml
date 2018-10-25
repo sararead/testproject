@@ -39,7 +39,8 @@ jobs:
         PDFTK_PATH: /usr/bin/pdftk
 
     steps:
-      - run: sudo apt-get update; sudo apt-get install pdftk
+      - run: apt-get update
+      - run: apt-get install pdftk
       - run: bundle exec rubocop
 
       
