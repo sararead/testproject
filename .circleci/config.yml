@@ -13,11 +13,13 @@ jobs:
     <<: *builderbox
     steps:
       - run: npm install
+      - run: yarn install --quiet
   test:
     <<: *builderbox
     steps:
       - checkout
       - run: git status
+      - run: yarn install --silent
       - run:
           name: Make a folder
           command: mkdir testfolder
