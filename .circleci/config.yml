@@ -9,7 +9,10 @@ references:
       - run: git status
       
   branches_list: &branches_list
-   - master
+      filters:
+        branches
+          only:
+            - master
 
 jobs:
   build:
@@ -54,10 +57,7 @@ workflows:
   test-build-deploy:
     jobs:
       - build:
-          filters:
-            branches:
-              only: 
-                <<: *branches_list
+           <<: *branches_list
       - build_two
       - test:
           context: Testing
