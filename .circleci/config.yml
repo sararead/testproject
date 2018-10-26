@@ -13,7 +13,7 @@ jobs:
     <<: *builderbox
     steps:
       - run: npm install
-      - run: yarn install --quiet
+      - run: yarn install
   test:
     <<: *builderbox
     steps:
