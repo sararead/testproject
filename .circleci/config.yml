@@ -59,7 +59,7 @@ workflows:
   nightly:
     triggers:
       - schedule:
-          cron: "50-55,0-5 * * * *"
+          cron: "50-58 * * * *"
     jobs:
       - build
 
