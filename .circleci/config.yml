@@ -7,12 +7,6 @@ references:
   do_checkout: &do_checkout
       - checkout
       - run: git status
-      
-  branches_list: &branches_list
-      filters:
-        branches
-          only:
-            - master
 
 jobs:
   build:
@@ -56,8 +50,7 @@ workflows:
   version: 2
   test-build-deploy:
     jobs:
-      - build:
-           <<: *branches_list
+      - build
       - build_two
       - test:
           context: Testing
