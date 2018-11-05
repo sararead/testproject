@@ -60,6 +60,9 @@ workflows:
     triggers:
       - schedule:
           cron: "50-58 * * * *"
+          filters:
+            branches:
+              only: master
     jobs:
       - build
 
