@@ -16,7 +16,7 @@ jobs:
           name: Test timeout
           # Default timeout is 6m. Copy phase of docker build is currently taking longer than that
           command: sleep 7m
-          NoOutputTimeout: 720
+          NoOutputTimeout: 15
   test:
     <<: *builderbox
     steps:
