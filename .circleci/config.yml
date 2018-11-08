@@ -12,8 +12,11 @@ jobs:
   build:
     <<: *builderbox
     steps:
-      - run: npm install
-      - run: yarn install
+      - run:
+          name: Test timeout
+          # Default timeout is 6m. Copy phase of docker build is currently taking longer than that
+          command: sleep 7m
+          no_output_timeout: 15m
   test:
     <<: *builderbox
     steps:
