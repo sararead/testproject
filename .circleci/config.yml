@@ -46,7 +46,6 @@ jobs:
     steps:
       - run: apt-get update
       - run: apt-get install pdftk -y
-      - run: bundle exec rubocop
 
       
 workflows:
