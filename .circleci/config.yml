@@ -1,3 +1,4 @@
+version: 2.1
 references:
   builderbox: &builderbox
     docker:
@@ -7,7 +8,8 @@ references:
   do_checkout: &do_checkout
       - checkout
       - run: git status
-
+      
+      
 jobs:
   build:
     <<: *builderbox
@@ -51,7 +53,6 @@ jobs:
 
       
 workflows:
-  version: 2
   test-build-deploy:
     jobs:
       - build
