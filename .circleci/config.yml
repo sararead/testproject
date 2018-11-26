@@ -1,63 +1,31 @@
-references:
-  builderbox: &builderbox
-    docker:
-      - image: circleci/php:7.2.10-cli-stretch-node-browsers-legacy
-#    parallelism: 4
-    
-  do_checkout: &do_checkout
-      - checkout
-      - run: git status
-
+version: 2
 jobs:
   build:
-    <<: *builderbox
-    steps:
-      - run:
-          name: Test timeout
-          # Default timeout is 6m. Copy phase of docker build is currently taking longer than that
-          command: sleep 7m
-          NoOutputTimeout: 15
-  test:
-    <<: *builderbox
+    working_directory: ~/degoo-client
+    docker:
+      - image: circleci/android:api-25-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
     steps:
       - checkout
-      - run: git status
-      - run: yarn install --silent
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+#      - run:
+#         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+#         command: sudo chmod +x ./gradlew
       - run:
-          name: Make a folder
-          command: mkdir testfolder
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: mess up space
-          command: mkdir anotherfolder
-      - run: echo $Saras_Test
-      - run: cd ios && bundle exec fastlane $FASTLANE_LANE
-  iOS:
-    macos: 
-      xcode: "9.0.0"
-    steps:
-      - run: echo "hello world"
-      - run: openssl version -a
-      
-  build_two:
-    docker:
-    - image: quay.io/aptible/ruby:2.2
-      environment:
-        PDFTK_PATH: /usr/bin/pdftk
-
-    steps:
-      - run: apt-get update
-      - run: apt-get install pdftk -y
-      - run: bundle exec rubocop
-
-      
-workflows:
-  version: 2
-  test-build-deploy:
-    jobs:
-      - build
-      - build_two
-      - test:
-          context: Testing
-      - iOS
-      
-
+          name: Run Tests
+          command: ./gradlew lint test
+      - store_artifacts:
+          path: app/build/reports
+          destination: reports
+      - store_test_results:
+          path: app/build/test-results
+# See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
