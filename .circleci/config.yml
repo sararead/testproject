@@ -40,7 +40,7 @@ jobs:
       
   build_two:
     docker:
-    - image: quay.io/aptible/ruby:2.2
+    - image: circleci/php@sha256:50d128524a5930b3cc0ccec8906883d7c7feffc8611bbfdffb762f0136c06357
       environment:
         PDFTK_PATH: /usr/bin/pdftk
 
