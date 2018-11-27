@@ -1,7 +1,7 @@
 references:
   builderbox: &builderbox
     docker:
-      - image: circleci/php:7.2.10-cli-stretch-node-browsers-legacy
+      - image: circleci/php:php:7.2-node
 #    parallelism: 4
     
   do_checkout: &do_checkout
