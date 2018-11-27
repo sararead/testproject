@@ -1,7 +1,7 @@
 references:
   builderbox: &builderbox
     docker:
-      - image: circleci/php:7.2-node
+      - image: circleci/php@sha256:c8054d02cd37863f302d5b9966950c9f317f1738577ae2b9d1c61233d630a136
 #    parallelism: 4
     
   do_checkout: &do_checkout
