@@ -1,7 +1,7 @@
 references:
   builderbox: &builderbox
     docker:
-      - image: circleci/python:3.6-node-browsers
+      - image: circleci/ruby:2.5.3-node-browsers
 #    parallelism: 4
     
   do_checkout: &do_checkout
