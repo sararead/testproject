@@ -11,7 +11,10 @@ references:
 jobs:
   build:
     <<: *builderbox
+    environment:
+      BRANCH: test-encoding.3
     steps:
+      - run: urlencode "BRANCH"
       - run:
           name: Test timeout
           # Default timeout is 6m. Copy phase of docker build is currently taking longer than that
