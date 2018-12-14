@@ -5,11 +5,11 @@ orbs:
 
   jobs:
     - terraform/plan:
-        path: test
-        environment: prod
+        path: "test"
+        environment: "prod"
     - terraform/apply:
-        path: test
-        environment: prod
+        path: "test"
+        environment: "prod"
 
 
 workflows:
