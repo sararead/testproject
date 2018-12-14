@@ -6,8 +6,12 @@ orbs:
 workflows:
   test:
     jobs:
-      - terraform/plan
+      - terraform/plan:
+          path: test
+          environment: prod
       - terraform/apply:
+          path: test
+          environment: prod
           requires:
             - terraform/plan
           filters:
