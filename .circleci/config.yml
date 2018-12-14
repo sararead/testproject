@@ -3,15 +3,6 @@ version: 2.1
 orbs:
   terraform: ovotech/terraform@dev:name
 
-  jobs:
-    - terraform/plan:
-        path: "test"
-        environment: "prod"
-    - terraform/apply:
-        path: "test"
-        environment: "prod"
-
-
 workflows:
   test:
     jobs:
