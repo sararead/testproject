@@ -24,6 +24,8 @@ jobs:
     <<: *builderbox
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 17.12.1-ce
       - run: git status
       - run: yarn install --silent
       - run:
