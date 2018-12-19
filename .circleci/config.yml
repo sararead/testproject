@@ -27,9 +27,9 @@ jobs:
       - setup_remote_docker:
           version: 17.12.1-ce
       - run:
-        command: |
-          docker ps
-          docker --version
+          command: |
+            docker ps
+            docker --version
       - run: git status
       - run: yarn install --silent
       - run:
