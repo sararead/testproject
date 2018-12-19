@@ -28,7 +28,7 @@ jobs:
           version: 17.12.1-ce
       - run:
           command: |
-            docker ps
+            docker run php:latest
             docker --version
       - run: git status
       - run: yarn install --silent
