@@ -1,7 +1,7 @@
 references:
   builderbox: &builderbox
     docker:
-      - image: circleci/ruby:2.5.3-node-browsers
+      - image: php:7.2-fpm-stretch
 #    parallelism: 4
     
   do_checkout: &do_checkout
@@ -14,6 +14,7 @@ jobs:
     environment:
       BRANCH: test-encoding.3
     steps:
+      - checkout
       - run: curl --data-urlencode "BRANCH"
       - run:
           name: Test timeout
@@ -21,7 +22,8 @@ jobs:
           command: sleep 7m
           NoOutputTimeout: 15
   test:
-    <<: *builderbox
+    docker:
+      - image: circleci/php:7.2-fpm-stretch
     steps:
       - checkout
       - setup_remote_docker:
