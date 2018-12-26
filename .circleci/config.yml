@@ -1,74 +1,48 @@
-references:
-  builderbox: &builderbox
-    docker:
-      - image: php:7.2-fpm-stretch
-#    parallelism: 4
-    
-  do_checkout: &do_checkout
-      - checkout
-      - run: git status
+_foo_bar_baz:
+  - &crystal_cache_key r{{ .Environment.OMG_CACHE_COUNTER }}-crystal-script-{{ arch }}-{{ checksum "update-stack.cr" }}
+  - &stack_cache_key r{{ .Environment.OMG_CACHE_COUNTER }}-stack-{{ arch }}-{{ checksum "package.yaml" }}-{{ checksum "stack.yaml" }}
+  - environment: &env
+      OMG_CACHE_COUNTER: 2018-12-25T00:52:22+00:00 # date --iso-8601=seconds --utc
 
+version: 2.1
 jobs:
   build:
-    <<: *builderbox
-    environment:
-      BRANCH: test-encoding.3
-    steps:
-      - checkout
-      - run: curl --data-urlencode "BRANCH"
-      - run:
-          name: Test timeout
-          # Default timeout is 6m. Copy phase of docker build is currently taking longer than that
-          command: sleep 7m
-          NoOutputTimeout: 15
-  test:
     docker:
-      - image: circleci/php:7.2-fpm-stretch
-    steps:
-      - checkout
-      - setup_remote_docker:
-          version: 17.12.1-ce
-      - run:
-          command: |
-            docker run php:latest
-            docker --version
-      - run: git status
-      - run: yarn install --silent
-      - run:
-          name: Make a folder
-          command: mkdir testfolder
-      - run:
-          name: mess up space
-          command: mkdir anotherfolder
-      - run: echo $Saras_Test
-      - run: cd ios && bundle exec fastlane $FASTLANE_LANE
-  iOS:
-    macos: 
-      xcode: "9.0.0"
-    steps:
-      - run: echo "hello world"
-      - run: openssl version -a
-      
-  build_two:
-    docker:
-    - image: circleci/php@sha256:50d128524a5930b3cc0ccec8906883d7c7feffc8611bbfdffb762f0136c06357
-      environment:
-        PDFTK_PATH: /usr/bin/pdftk
+      - image: haskell:latest
 
     steps:
-      - run: apt-get update
-      - run: apt-get install pdftk -y
-      - run: bundle exec rubocop
+      - checkout
 
-      
+      - restore_cache:
+          keys:
+            - *stack_cache_key
+
+      - restore_cache:
+          keys:
+            - *crystal_cache_key
+
+      - run: test -f update-stack || sh .circleci/crystal_build.sh
+
+      - run: ./update-stack && stack setup
+      - run: stack exec env
+
+      - save_cache:
+          key: *crystal_cache_key
+          paths:
+            - ./update-stack
+
+      - save_cache:
+          key: *stack_cache_key
+          paths:
+            - .stack-work
+            - $HOME/.stack
+
+      - run: stack build
+
+    environment: *env
+
+
 workflows:
-  version: 2
-  test-build-deploy:
+  build_workflow:
     jobs:
       - build
-      - build_two
-      - test:
-          context: Testing
-      - iOS
-      
-
