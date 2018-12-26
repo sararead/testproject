@@ -23,7 +23,7 @@ jobs:
           NoOutputTimeout: 15
   test:
     docker:
-      - image: circleci/php:7.2-fpm-stretch
+      - image: circleci/node:10.15.0
     steps:
       - checkout
       - setup_remote_docker:
