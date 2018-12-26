@@ -1,51 +1,44 @@
-commands:
-  crystal_cache_key:
-      - save_cache:
-          key: r{{ .Environment.OMG_CACHE_COUNTER }}-crystal-script-{{ arch }}-{{ checksum "update-stack.cr" }}
-          paths:
-            - ./update-stack  
-  stack_cache_key:
-      - save_cache:
-          key: r{{ .Environment.OMG_CACHE_COUNTER }}-stack-{{ arch }}-{{ checksum "package.yaml" }}-{{ checksum "stack.yaml" }}
-          paths:
-            - .stack-work
-            - $HOME/.stack  
-  env: 
-    OMG_CACHE_COUNTER: 2018-12-25T00:52:22+00:00 # date --iso-8601=seconds --utc
 
-version: 2.1
-jobs:
-  build:
-    docker:
-      - image: haskell:latest
-    environment: env
-
-    steps:
-      - checkout
-
-      - restore_cache:
-          keys:
-            - r{{ .Environment.OMG_CACHE_COUNTER }}-crystal-script-{{ arch }}-{{ checksum "update-stack.cr" }}
-
-      - restore_cache:
-          keys:
-            - r{{ .Environment.OMG_CACHE_COUNTER }}-stack-{{ arch }}-{{ checksum "package.yaml" }}-{{ checksum "stack.yaml" }}
-
-      - run: test -f update-stack || sh .circleci/crystal_build.sh
-
-      - run: ./update-stack && stack setup
-      - run: stack exec env
-
-      - crystal_cache_key
-
-      - stack_cache_key
-
-      - run: stack build
-
-    
-
-
-workflows:
-  build_workflow:
-    jobs:
-      - build
+ _foo_bar_baz:
+   - &crystal_cache_key r181125a-crystal-script-{{ arch }}-{{ checksum \"update-stack.cr\" }}
+   - &stack_cache_key r181125a-stack-{{ arch }}-{{ checksum \"package.yaml\" }}-{{ checksum \"stack.yaml\" }}
+ 
+ version: 2.1
+ jobs:
+   build:
+     docker:
+       - image: haskell:latest
+ 
+     steps:
+       - checkout
+ 
+       - restore_cache:
+           keys:
+             - *stack_cache_key
+ 
+       - restore_cache:
+           keys:
+             - *crystal_cache_key
+ 
+       - run: test -f update-stack || sh .circleci/crystal_build.sh
+ 
+       - run: ./update-stack && stack setup
+       - run: stack exec env
+ 
+       - save_cache:
+           key: *crystal_cache_key
+           paths:
+             - ./update-stack
+ 
+       - save_cache:
+           key: *stack_cache_key
+           paths:
+             - .stack-work
+             - $HOME/.stack
+ 
+       - run: stack build
+ 
+ workflows:
+   build:
+     jobs:
+       - build
