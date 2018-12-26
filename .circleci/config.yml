@@ -2,7 +2,7 @@
  _foo_bar_baz:
    - &crystal_cache_key r181125a-crystal-script-{{ arch }}-{{ checksum \"update-stack.cr\" }}
    - &stack_cache_key r181125a-stack-{{ arch }}-{{ checksum \"package.yaml\" }}-{{ checksum \"stack.yaml\" }}
-  - &env OMG_CACHE_COUNTER: 2018-12-25T00:52:22+00:00 # date --iso-8601=seconds --utc
+   - &env OMG_CACHE_COUNTER: 2018-12-25T00:52:22+00:00 # date --iso-8601=seconds --utc
  
  version: 2.1
  jobs:
