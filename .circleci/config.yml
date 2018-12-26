@@ -1,7 +1,7 @@
 references:
   builderbox: &builderbox
     docker:
-      - image: php:7.2-fpm-stretch
+      - image: node:10.15.0
 #    parallelism: 4
     
   do_checkout: &do_checkout
