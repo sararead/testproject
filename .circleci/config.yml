@@ -23,15 +23,10 @@ jobs:
           NoOutputTimeout: 15
   test:
     docker:
-      - image: circleci/node:10.15.0
+      - image: circleci/build-image:ubuntu-14.04-XXL-upstart-1189-5614f37
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 17.12.1-ce
-      - run:
-          command: |
-            docker run php:latest
-            docker --version
+      - run: gem install bundler
       - run: git status
       - run: yarn install --silent
       - run:
