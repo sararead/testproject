@@ -1,7 +1,7 @@
 references:
   builderbox: &builderbox
     docker:
-      - image: node:10.15.0
+      - image: ruby:2.1.7
 #    parallelism: 4
     
   do_checkout: &do_checkout
@@ -23,7 +23,7 @@ jobs:
           NoOutputTimeout: 15
   test:
     docker:
-      - image: circleci/build-image:ubuntu-14.04-XXL-upstart-1189-5614f37
+      - image: circleci/ruby:2.1.7
     steps:
       - checkout
       - run: gem install bundler
