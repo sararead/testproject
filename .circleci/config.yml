@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
       - run: cd .circleci
-      - run: sudo script.sh
+      - run: sudo ./script.sh
       
       
 workflows:
