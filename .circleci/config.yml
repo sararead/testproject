@@ -5,7 +5,7 @@ jobs:
       - image: circleci/android:api-28-ndk-r17b
     steps:
       - checkout
-      - run: sudo ./echo.sh
+      - run: ./echo.sh
       
       
 workflows:
