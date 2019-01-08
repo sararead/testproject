@@ -23,7 +23,7 @@ jobs:
           NoOutputTimeout: 15
   test:
     docker:
-      - image: circleci/ruby:2.1.7
+      - image: circleci/ruby:2.1.7-legacy
     steps:
       - checkout
       - run: gem install bundler
