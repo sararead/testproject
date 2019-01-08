@@ -6,8 +6,8 @@ jobs:
     steps:
       - run: echo "$CIRCLECI"
       - run: echo $CIRCLECI
-      - run: echo "Circle Value: $CIRCLECI"
-      - run: echo "Circle Value: " $CIRCLECI
+      - run: echo "Circle Value\: $CIRCLECI"
+      - run: echo "Circle Value\: " $CIRCLECI
       
       
 workflows:
