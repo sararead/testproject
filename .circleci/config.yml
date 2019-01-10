@@ -6,6 +6,8 @@ jobs:
     steps:
       - checkout
       - run: bash echo.sh
+      - run: wait 90
+      - run: echo "is this canceled?"
       
       
 workflows:
