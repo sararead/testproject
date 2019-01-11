@@ -3,8 +3,11 @@ jobs:
   build:
     docker:
       - image: circleci/android:api-28-ndk-r17b
+        environment:
+          TZ: "America/Los_Angeles"
     steps:
       - checkout
+      - run: date
       - run: bash echo.sh
       - run: wait 180
       - run: echo "is this canceled?"
