@@ -17,78 +17,78 @@ jobs:
     steps:
       - checkout
       - run: 
-        name: Pre-install
-        command: |
-          sudo gem install bundler -v 1.17.1
-          sudo echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' >/tmp/pgdb.list
-          sudo cp /tmp/pgdb.list /etc/apt/sources.list.d/
-          sudo rm /tmp/pgdb.list
-          sudo wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-          sudo apt-get update
-          sudo apt install -y software-properties-common
-          sudo apt install -y gcc g++ make qt5-default libqt5webkit5-dev ruby-dev zlib1g-dev
-          sudo apt install -y postgresql-client-10
+          name: Pre-install
+          command: |
+            sudo gem install bundler -v 1.17.1
+            sudo echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' >/tmp/pgdb.list
+            sudo cp /tmp/pgdb.list /etc/apt/sources.list.d/
+            sudo rm /tmp/pgdb.list
+            sudo wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+            sudo apt-get update
+            sudo apt install -y software-properties-common
+            sudo apt install -y gcc g++ make qt5-default libqt5webkit5-dev ruby-dev zlib1g-dev
+            sudo apt install -y postgresql-client-10
       - run: 
-        name: Install Code Climate test-reporter
-        command: |
-          sudo curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          sudo chmod +x ./cc-test-reporter
+          name: Install Code Climate test-reporter
+          command: |
+            sudo curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            sudo chmod +x ./cc-test-reporter
       - restore_cache: 
-        name: Restore Gemfile Gem Cache
-        keys:
-          - v1.3-dependencies-{{ checksum "Gemfile.lock" }}
+          name: Restore Gemfile Gem Cache
+          keys:
+            - v1.3-dependencies-{{ checksum "Gemfile.lock" }}
       - restore_cache: 
-        name: Restore Yarn Package Cache
-        keys:
-          - v1.3-yarn-packages-{{ checksum "yarn.lock" }}
+          name: Restore Yarn Package Cache
+          keys:
+            - v1.3-yarn-packages-{{ checksum "yarn.lock" }}
       - run: 
-        name: Install Ruby Dependencies
-        command: |
-          bundle install --jobs=4 --retry=3 --path vendor/bundle
+          name: Install Ruby Dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
       - run: 
-        name: Install JS Dependencies
-        command: |
-          yarn install
+          name: Install JS Dependencies
+          command: |
+            yarn install
       - save_cache: 
-        name: Save Gemfile Gem Cache
-        key: v1.3-dependencies-{{ checksum "Gemfile.lock" }}
-        paths:
-          - ./vendor/bundle
+          name: Save Gemfile Gem Cache
+          key: v1.3-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - ./vendor/bundle
       - save_cache: 
-        name: Save Yarn Package Cache
-        key: v1.3-yarn-packages-{{ checksum "yarn.lock" }}
-        paths:
-          - ~/.cache/yarn
+          name: Save Yarn Package Cache
+          key: v1.3-yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
       - run: 
-        name: Rubocop
-        command: |
-          ./script/rubocop.sh
+          name: Rubocop
+          command: |
+            ./script/rubocop.sh
       - run: 
-        name: Setup database
-        command: |
-          bundle exec rake db:create db:structure:load db:migrate
+          name: Setup database
+          command: |
+            bundle exec rake db:create db:structure:load db:migrate
       - run: 
-        name: Create test results directory
-        command: |
-          mkdir /tmp/test-results
+          name: Create test results directory
+          command: |
+            mkdir /tmp/test-results
       - run: 
-        name: Run react tests
-        command: |
-          yarn test:ci
-          ./cc-test-reporter format-coverage -t lcov -o tmp/test-results/codeclimate.react.json coverage/lcov.info
+          name: Run react tests
+          command: |
+            yarn test:ci
+            ./cc-test-reporter format-coverage -t lcov -o tmp/test-results/codeclimate.react.json coverage/lcov.info
       - run: 
-        name: Run rspec tests
-        command: |
-          bundle exec rspec --format progress \
-                          --format RspecJunitFormatter \
-                          --out /tmp/test-results/rspec.xml \
-                          --profile 10
-          ./cc-test-reporter format-coverage -t simplecov -o tmp/test-results/codeclimate.rspec.json coverage/.resultset.json
+          name: Run rspec tests
+          command: |
+            bundle exec rspec --format progress \
+            --format RspecJunitFormatter \
+            --out /tmp/test-results/rspec.xml \
+            --profile 10
+            ./cc-test-reporter format-coverage -t simplecov -o tmp/test-results/codeclimate.rspec.json coverage/.resultset.json
       - run: 
-        name: Upload code coverage results to Code Climate
-        command: |
-          ./cc-test-reporter sum-coverage tmp/test-results/codeclimate.*.json -p 2 -o tmp/test-results/codeclimate.total.json
-          ./cc-test-reporter upload-coverage -i tmp/test-results/codeclimate.total.json
+          name: Upload code coverage results to Code Climate
+          command: |
+            ./cc-test-reporter sum-coverage tmp/test-results/codeclimate.*.json -p 2 -o tmp/test-results/codeclimate.total.json
+            ./cc-test-reporter upload-coverage -i tmp/test-results/codeclimate.total.json
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:
