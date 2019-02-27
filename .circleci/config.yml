@@ -28,6 +28,7 @@ jobs:
       - setup_remote_docker:
           version: 18.09.2
       - run: echo "hey-o!"
+      - run: echo $testVar
   iOS:
     macos: 
       xcode: "9.0.0"
