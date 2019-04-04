@@ -1,7 +1,7 @@
 references:
   builderbox: &builderbox
     docker:
-      - image: ruby:2.2.10-stretch
+      - image: ruby:2.2.10
 #    parallelism: 4
     
   do_checkout: &do_checkout
@@ -13,7 +13,7 @@ jobs:
     <<: *builderbox
     steps:
       - checkout
-      - run: sudo apt-get update
+      - run: apt-get update
       
   test:
     docker:
