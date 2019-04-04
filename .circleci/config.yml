@@ -1,7 +1,7 @@
 references:
   builderbox: &builderbox
     docker:
-      - image: ruby:2.2.10
+      - image: ruby:2.2.10-stretch
 #    parallelism: 4
     
   do_checkout: &do_checkout
