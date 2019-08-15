@@ -1,7 +1,7 @@
 references:
   builderbox: &builderbox
     docker:
-      - image: ubuntu/18.04:latest
+      - image: ubuntu/16.04:latest
 #    parallelism: 4
     
   do_checkout: &do_checkout
@@ -17,7 +17,7 @@ jobs:
       
   test:
     docker:
-      - image: ubuntu/18.04:latest
+      - image: ubuntu/16.04:latest
     steps:
       - run: echo "hey-o!"
       - run: echo $testVar
@@ -30,7 +30,7 @@ jobs:
       
   build_two:
     docker:
-    - image: ubuntu/18.04
+    - image: ubuntu/16.04
       environment:
         PDFTK_PATH: /usr/bin/pdftk
 
