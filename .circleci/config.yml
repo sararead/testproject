@@ -1,7 +1,7 @@
 references:
   builderbox: &builderbox
     docker:
-      - image: ruby:2.2.10
+      - image: ubuntu/18.04
 #    parallelism: 4
     
   do_checkout: &do_checkout
@@ -17,7 +17,7 @@ jobs:
       
   test:
     docker:
-      - image: ruby:2.1.7
+      - image: ubuntu/18.04
     steps:
       - run: echo "hey-o!"
       - run: echo $testVar
@@ -30,7 +30,7 @@ jobs:
       
   build_two:
     docker:
-    - image: circleci/php@sha256:50d128524a5930b3cc0ccec8906883d7c7feffc8611bbfdffb762f0136c06357
+    - image: ubuntu/18.04
       environment:
         PDFTK_PATH: /usr/bin/pdftk
 
